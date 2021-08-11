@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 public class Comment {
@@ -52,12 +53,14 @@ public class Comment {
         return text;
     }
 
-    public void setText(String text) {
-        this.text = text;
+
+    public String getDate() {
+        return localDateTime.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
     }
 
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
+
+    public void setDate(LocalDateTime date) {
+        this.localDateTime = date;
     }
 
     public void setLocalDateTime(LocalDateTime localDateTime) {
