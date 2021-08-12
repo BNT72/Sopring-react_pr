@@ -3,20 +3,23 @@ package com.example.springbackend.controller;
 import com.example.springbackend.exeption.ResourceNotFoundException;
 import com.example.springbackend.model.Comment;
 import com.example.springbackend.model.Issue;
+import com.example.springbackend.model.User;
 import com.example.springbackend.repo.CommentRepo;
 import com.example.springbackend.repo.IssueRepo;
+import com.example.springbackend.repo.UserDetailsRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/api")
 public class IssueController {
 
   private final IssueRepo issueRepo;
@@ -24,9 +27,12 @@ public class IssueController {
   private final CommentRepo commentRepo;
 
 
-  public IssueController(IssueRepo issueRepo, CommentRepo commentRepo) {
+  private final UserDetailsRepo userDetailsRepo;
+
+  public IssueController(IssueRepo issueRepo, CommentRepo commentRepo, UserDetailsRepo userDetailsRepo) {
     this.issueRepo = issueRepo;
     this.commentRepo = commentRepo;
+    this.userDetailsRepo = userDetailsRepo;
   }
 
 
@@ -110,4 +116,6 @@ public class IssueController {
     response.put("deleted", Boolean.TRUE);
     return ResponseEntity.ok(response);
   }
+
+
 }
