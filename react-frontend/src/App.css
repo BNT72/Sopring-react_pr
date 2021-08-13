@@ -1,0 +1,22 @@
+
+.hover {
+  /* То же, что и раньше */
+
+  background: linear-gradient(to right, midnightblue, midnightblue 50%, royalblue 50%);
+}
+
+.hover {
+  /* То же, что и раньше */
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 100%;
+  background-position: 100%;
+}
+
+
+
+.hover:hover {
+  background-position: 0 100%;
+  /*background: #1E90FF;*/
+}
