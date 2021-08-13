@@ -1,0 +1,838 @@
+Index: src/App.css
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/App.css b/src/App.css
+--- a/src/App.css	(revision fca4b6e0b912fa80a4a440d370d959c22418eb90)
++++ b/src/App.css	(revision 9d558ececcaff6336f00c000e52fc3775fda5772)
+@@ -1,14 +1,22 @@
+ 
++.hover {
++  /* То же, что и раньше */
+ 
++  background: linear-gradient(to right, midnightblue, midnightblue 50%, royalblue 50%);
++}
+ 
++.hover {
++  /* То же, что и раньше */
++  background-clip: text;
++  -webkit-background-clip: text;
++  -webkit-text-fill-color: transparent;
++  background-size: 200% 100%;
++  background-position: 100%;
++}
+ 
+ 
+ 
+-.footer {
+-  position: absolute;
+-  bottom: 0;
+-  width: 100%;
+-  height: 50px;
+-  background-color: black;
+-  color: white;
++.hover:hover {
++  background-position: 0 100%;
++  /*background: #1E90FF;*/
+ }
+\ No newline at end of file
+Index: src/App.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/App.js b/src/App.js
+--- a/src/App.js	(revision fca4b6e0b912fa80a4a440d370d959c22418eb90)
++++ b/src/App.js	(revision 9d558ececcaff6336f00c000e52fc3775fda5772)
+@@ -1,31 +1,10 @@
+ import './App.css';
+-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+-import ListIssueComponent from "./components/ListIssueComponent";
+-import {Container} from "react-bootstrap";
+-import CreateIssueComponent from "./components/CreateIssueComponent";
+-import ViewIssueComponent from "./components/ViewIssueComponent";
++import React from "react";
++import IssueRoute from "./components/IssueRoute";
++
+ 
+ function App() {
+-
+-
+-    return (
+-        <>
+-            <Router>
+-
+-
+-                <Container className={"mt-3"}>
+-                    <Switch>
+-                        <Route path="/" exact component={ListIssueComponent}/>
+-                        <Route path="/employees" component={ListIssueComponent}/>
+-                        <Route path="/add-employee/:id" component={CreateIssueComponent}/>
+-                        <Route path="/view-employee/:id" component={ViewIssueComponent}/>
+-                    </Switch>
+-                </Container>
+-
+-
+-            </Router>
+-        </>
+-    );
++    return <IssueRoute/>
+ }
+ 
+ export default App;
+Index: src/components/CreateComment.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/CreateComment.js b/src/components/CreateComment.js
+--- a/src/components/CreateComment.js	(revision fca4b6e0b912fa80a4a440d370d959c22418eb90)
++++ b/src/components/CreateComment.js	(revision 9d558ececcaff6336f00c000e52fc3775fda5772)
+@@ -1,59 +1,31 @@
+ import React, {Component} from 'react';
+ import {Card} from "react-bootstrap";
+-import {connect, useDispatch, useSelector} from "react-redux";
+-import {SaveComment, ViewIssue} from "../redux/actions";
++import {connect, useSelector} from "react-redux";
++import {SaveComment} from "../redux/actions";
+ import {maxLengthCreator, required} from "../validations/validatiors";
+ import {Field, reduxForm} from "redux-form";
+-import {renderField} from "../validations/renderField";
++import {renderFieldTextarea} from "../validations/renderField";
++import {Link} from "react-router-dom";
+ 
+ class CreateComment extends Component {
+ 
+-
+-
+-    // changeStatusHandler = (event) => {
+-    //     this.setState({status: event.target.value})
+-    // };
+-    // changeTextHandler = (event) => {
+-    //     this.setState({text: event.target.value})
+-    // };
+-    // changeAuthorHandler = (event) => {
+-    //     this.setState({author: event.target.value})
+-    // };
+-
+-
+-    // saveComment = (e) => {
+-    //     e.preventDefault();
+-    //
+-    //     let comment = {
+-    //         author: this.state.author,
+-    //         status: this.state.status,
+-    //         text: this.state.text
+-    //
+-    //     }
+-    //
+-    //
+-    //     this.props.SaveComment(this.props.id, comment);
+-    //    this.props.employee.status=comment.status;
+-    //
+-    //    this.setState({author:"",status:"",text:""})
+-    // }
+-
+-
+-
+-
+     render() {
+         const onSubmit = (formData) => {
+-            console.log(formData)
+-            this.props.SaveComment(this.props.id,formData);
+-            this.props.employee.status=formData.status;
++            formData.author = this.props.user.name
++
++            if (!formData.status) formData.status = this.props.employee.status
++            else   this.props.employee.status = formData.status;
++
++            this.props.SaveComment(this.props.id, formData);
++
+         }
+ 
+ 
+         return (
+-            <Card className={"col-md-6 offset-md-3"}>
+-                <h3 className={"text-center"}>Add Comment</h3>
++            <Card className={"mt-2 "}>
++                <h5 className={"text-center"}>Add Comment</h5>
+                 <div className={"card-body"}>
+-                    <CommentReduxForm onSubmit={onSubmit} />
++                    <CommentReduxForm onSubmit={onSubmit}/>
+                 </div>
+ 
+             </Card>
+@@ -63,62 +35,63 @@
+ 
+ 
+ const mapDispatchToProps = {
+-    SaveComment, ViewIssue
++    SaveComment
+ }
+ 
+ const mapStateToProps = sate => ({
+     employee: sate.posts.employee,
+-    // user:sate.users.user
++    user: sate.users.user
+ 
+ 
+ })
+ export default connect(mapStateToProps, mapDispatchToProps)(CreateComment);
+ 
+ 
+-
+-const maxLength=maxLengthCreator(30)
+-const maxDescriptions=maxLengthCreator(250)
++const maxDescriptions = maxLengthCreator(250)
+ 
+ const Form = (props) => {
+-    // console.log(this.state.user);
++
+     const user = useSelector(state => {
+         return state.users.user
+     })
+-    console.log(user)
++
+     return (
+-        <form  onSubmit={props.handleSubmit}>
++        <form onSubmit={props.handleSubmit}>
+             <div className={"form-group"}>
+-                <div className={"form-group mb-2"}>
+-                    <label>Author</label>
+-                    <input type={"text"} value={user.name} label={"Author"} className={"form-control"} />
+-                    {/*<Field component={renderField} type={"text"} label={"Author"} name={"author"} value={user.name}*/}
+-                    {/*       validate={[required,maxLength]}*/}
+-                    {/*/>*/}
++                <div className={"form-group p-2"}>
++                    <label>Author: {user.name}</label>
++
+                 </div>
+             </div>
+ 
+             <div className={"form-group"}>
+                 <div className={"form-group"}>
++                    <label className={"p-2  "}>Status</label>
++                    <Field name="status" component="select">
++                        <option value=""></option>
++                        <option value="In the process">In the process</option>
++                        <option value="Closed">Closed</option>
++                    </Field>
+ 
+-                    <Field component={renderField} type={"text"} label={"Status"} name={"status"}
+-                           validate={[required,maxLength]}
+-                    />
+                 </div>
+             </div>
+ 
+             <div className={"form-group mb-2"}>
+ 
+-                <Field component={renderField} label={"Text"} name={"text"}
+-                       validate={[required,maxDescriptions]}
++                <Field component={renderFieldTextarea} label={"Descriptions"} name={"text"}
++                       validate={[required, maxDescriptions]}
+                 />
+             </div>
+ 
+ 
+-            <button className={"btn btn-success"}>Save</button>
++            <button className={"btn btn-success m-1"}>Save</button>
+ 
++            <Link to={{pathname: '/'}}>
++                <button className={"btn btn-danger "}>Cancel</button>
++            </Link>
+         </form>
+ 
+-   )
++    )
+ }
+ 
+ const CommentReduxForm = reduxForm({form: 'Comment'})(Form)
+Index: src/components/CreateIssueComponent.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/CreateIssueComponent.js b/src/components/CreateIssueComponent.js
+--- a/src/components/CreateIssueComponent.js	(revision fca4b6e0b912fa80a4a440d370d959c22418eb90)
++++ b/src/components/CreateIssueComponent.js	(revision 9d558ececcaff6336f00c000e52fc3775fda5772)
+@@ -1,34 +1,26 @@
+ import React, {Component} from 'react';
+ import {Card} from "react-bootstrap";
+ import {createIssue, fetchPosts} from "../redux/actions";
+-import {connect} from "react-redux";
++import {connect, useSelector} from "react-redux";
+ import {Field, reduxForm} from "redux-form";
+ import {maxLengthCreator, required} from "../validations/validatiors";
+-import {renderField} from "../validations/renderField";
++import {renderField, renderFieldTextarea} from "../validations/renderField";
++import {Link} from "react-router-dom";
+ 
+ class CreateIssueComponent extends Component {
+-    constructor(props) {
+-        super(props);
+-        this.state = {
+-            id: this.props.match.params.id,
+-            name: "",
+-            status: "",
+-            descriptions: "",
+-            author: ""
+-        }
+ 
+-    }
+ 
+-
+-    cancel = () => {
+-        this.props.history.push('/employees')
+-    }
++    // cancel = () => {
++    //     this.props.history.push('/employees')
++    // }
+ 
+ 
+     render() {
+ 
+         const onSubmit = (formData) => {
+-            console.log(formData)
++            formData.author = this.props.user.name
++            formData.status = "Created"
++
+             this.props.createIssue(formData);
+             this.props.history.push('/employees')
+             this.props.fetchPosts();
+@@ -40,11 +32,10 @@
+                 <div className={"card-body"}>
+                     <IssueReduxForm onSubmit={onSubmit}/>
+ 
++
++                    {/*<button className={"btn btn-danger mt-1"} onClick={this.cancel.bind(this)}>Cancel</button>*/}
+                 </div>
+-                <button className={"btn btn-danger m-2"}
+-                        onClick={this.cancel.bind(this)}
+-                >Cancel
+-                </button>
++
+             </Card>
+ 
+ 
+@@ -55,46 +46,54 @@
+ const mapDispatchToProps = {
+     fetchPosts, createIssue
+ }
++const mapStateToProps = sate => ({
+ 
++    user: sate.users.user
+ 
+-export default connect(null, mapDispatchToProps)(CreateIssueComponent);
+ 
++})
+ 
+-
++export default connect(mapStateToProps, mapDispatchToProps)(CreateIssueComponent);
+ 
+ 
+-const maxLength=maxLengthCreator(30)
+-const maxDescriptions=maxLengthCreator(250)
++const maxLength = maxLengthCreator(30)
++const maxDescriptions = maxLengthCreator(250)
+ 
+ const Form = (props) => {
+-
++    const user = useSelector(state => {
++        return state.users.user
++    })
+     return (<form onSubmit={props.handleSubmit}>
++
++
++        <div className={"form-group mb-2"}>
++            <label>Author: {user.name}</label>
++        </div>
++
+         <div className={"form-group"}>
+ 
+-            <Field component={renderField} type={"text"} label={"Name"}  name={"name"}
+-                   validate={[required,maxLength]}/>
++            <Field component={renderField} type={"text"} label={"Name"} name={"name"}
++                   validate={[required, maxLength]}/>
+         </div>
+ 
+         <div className={"form-group"}>
+ 
+-            <Field component={renderField} type={"text"} label={"Status"} name={"status"}
+-                   validate={[required,maxLength]}
+-            />
++            {/*<Field component={renderField} type={"text"} label={"Status"} name={"status"}*/}
++            {/*       validate={[required,maxLength]}*/}
++            {/*/>*/}
+         </div>
+ 
+         <div className={"form-group mb-2"}>
+ 
+-            <Field component={renderField} type={"text"} label={"Descriptions"} name={"descriptions"}
+-                   validate={[required,maxDescriptions]}
++            <Field component={renderFieldTextarea} type={"text"} label={"Descriptions"} name={"descriptions"}
++                   validate={[required, maxDescriptions]}
+             />
+         </div>
+-        <div className={"form-group mb-2"}>
+ 
+-            <Field component={renderField} type={"text"} label={"Author"} name={"author"}
+-                   validate={[required,maxLength]}
+-            />
+-        </div>
+-
++        <button className={"btn btn-success m-1"}>Save</button>
++        <Link to={{pathname: '/'}}>
++            <button className={"btn btn-danger "}>Cancel</button>
++        </Link>
+ 
+ 
+     </form>)
+Index: src/components/IssueRoute.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/IssueRoute.js b/src/components/IssueRoute.js
+new file mode 100644
+--- /dev/null	(revision 9d558ececcaff6336f00c000e52fc3775fda5772)
++++ b/src/components/IssueRoute.js	(revision 9d558ececcaff6336f00c000e52fc3775fda5772)
+@@ -0,0 +1,64 @@
++import React, {Component} from 'react';
++import {connect} from "react-redux";
++import {GetUser} from "../redux/actions";
++import {Container} from "react-bootstrap";
++import {Route,BrowserRouter as Router, Switch} from "react-router-dom";
++import ListIssueComponent from "./ListIssueComponent";
++import CreateIssueComponent from "./CreateIssueComponent";
++import ViewIssueComponent from "./ViewIssueComponent";
++
++class IssueRoute extends Component {
++
++    constructor(props) {
++        super(props);
++
++
++        this.props.GetUser();
++
++
++
++    }
++
++
++    render() {
++
++        if (!this.props.user.id) {
++            // Супер костыль //
++            // Авторизация проходит только на порту 8081, если пользователь не авторизован появляеться ссылка на порт спринга
++            //  где проходит авторизация и в дальнейшем редиректит обратно на порт 3000
++            return (<a href={"http://localhost:8081/back"}> Hello user! You need to log in</a>)
++        } else {
++
++            return (
++                <>
++                    <Router>
++
++
++                        <Container className={"mt-3"}>
++                            <Switch>
++                                <Route path="/" exact component={ListIssueComponent}/>
++                                <Route path="/employees" component={ListIssueComponent}/>
++                                <Route path="/add-employee/:id" component={CreateIssueComponent}/>
++                                <Route path="/view-employee/:id" component={ViewIssueComponent}/>
++                            </Switch>
++                        </Container>
++
++
++                    </Router>
++                </>
++            );
++        }
++    }
++}
++
++
++const mapDispatchToProps = {
++    GetUser
++}
++
++const mapStateToProps = sate => ({
++
++    user: sate.users.user
++})
++
++export default connect(mapStateToProps, mapDispatchToProps)(IssueRoute);
+\ No newline at end of file
+Index: src/components/ListIssueComponent.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/ListIssueComponent.js b/src/components/ListIssueComponent.js
+--- a/src/components/ListIssueComponent.js	(revision fca4b6e0b912fa80a4a440d370d959c22418eb90)
++++ b/src/components/ListIssueComponent.js	(revision 9d558ececcaff6336f00c000e52fc3775fda5772)
+@@ -1,5 +1,6 @@
++import '../App.css';
+ import React, {Component} from 'react';
+-import {Row} from "react-bootstrap";
++import {Container, Row} from "react-bootstrap";
+ import {connect} from "react-redux";
+ import {deleteIssue, fetchPosts, GetUser} from "../redux/actions";
+ 
+@@ -11,7 +12,7 @@
+ 
+         this.viewEmployee = this.viewEmployee.bind(this)
+ 
+-        this.props.GetUser();
++        // this.props.GetUser();
+         this.props.fetchPosts();
+ 
+     }
+@@ -29,84 +30,71 @@
+     }
+ 
+ 
+-
+-
+-
+-
+     viewEmployee(id) {
+         // this.props.ViewEmployee(id)
+         this.props.history.push(`/view-employee/${id}`)
+     }
+ 
+     render() {
+-        console.log(this.props.user)
++
++        function colorStatus(status) {
++            switch (status) {
++                case "Created":
++                    return <b className={"text-success"}>{status}</b>
++                case "In the process":
++                    return <b className={"text-warning"}>{status}</b>
++                case "Closed":
++                    return <b className={"text-danger"}>{status}</b>
+ 
+-        if(!this.props.user.id)
+-        {
+-            // Супер костыль //
+-            // Авторизация проходит только на порту 8081, если пользователь не авторизован появляеться ссылка на порт спринга
+-            //  где проходит авторизация и в дальнейшем редиректит обратно на порт 3000
+-            return  <a href={"http://localhost:8081/back"}> Hello user! You need to log in</a>
++                default:
++                    return <b>{status}</b>
++            }
+         }
+-        else{
+-            return (
+-                <div>
++
++        return (
++            <>
+ 
+ 
+-                    <h2 className={"text-center"}>Employee List</h2>
+-                    <Row>
++                <h2 className={"text-center"}>Employee List</h2>
++                <Container>
++                    <Row className={" p-3}"}>
+                         <button className={"btn btn-primary"} onClick={this.addEmployee}>Add employee</button>
+                     </Row>
+-                    <Row>
+-                        <table className={"table table-striped table-bordered"}>
+-                            <thead>
+-                            <tr>
+-                                <th>Name</th>
+-                                <th>Status</th>
+-                                <th>Descriptions</th>
+-                                <th>Author</th>
+-                                <th>Date</th>
+-                                <th>Actions</th>
+-                            </tr>
+-                            </thead>
+ 
+-                            <tbody>
+-                            {
+-                                this.props.employees.map(
+-                                    employee =>
+-                                        <tr key={employee.id}>
+-                                            <td>{employee.name}</td>
+-                                            <td>{employee.status}</td>
+-                                            <td>{employee.descriptions}</td>
+-                                            <td>{employee.author}</td>
+-                                            <td>{employee.date}</td>
+-                                            <td>
++
++                    {
++                        this.props.employees.map(
++                            employee =>
++                                <Row className={"border  my-1 p-1 rounded"} key={employee.id}>
++                                    {colorStatus(employee.status)}
++                                    <span className={"hover"}
++                                          onClick={() => this.viewEmployee(employee.id)}>{employee.name}</span>
+ 
+ 
+-                                                <button onClick={() => this.props.deleteIssue(employee.id)}
+-                                                        className={"btn btn-danger m-1"}>Delete
+-                                                </button>
+-                                                <button onClick={() => this.viewEmployee(employee.id)}
+-                                                        className={"btn btn-success m-1"}>View
+-                                                </button>
+-                                            </td>
++                                    <div>by: {employee.author}</div>
++                                    <div>#{employee.id} Opened {employee.date}
+ 
+-                                        </tr>
+-                                )
+-                            }
+-                            </tbody>
+ 
+-                        </table>
++                                        <img className={"m-2 "} height={18}
++                                             src={"https://image.flaticon.com/icons/png/512/3096/3096673.png"} alt={"none"}
++                                             onClick={() => this.props.deleteIssue(employee.id)}/>
+ 
+-                    </Row>
+-                </div>
+-            );
+-        }
++                                    </div>
++
++
++                                </Row>
++                        )
++                    }
++
++                </Container>
++            </>
++        );
+     }
++
+ }
+ 
+ const mapDispatchToProps = {
+-    fetchPosts, deleteIssue,GetUser
++    fetchPosts, deleteIssue, GetUser
+ }
+ 
+ const mapStateToProps = sate => ({
+Index: src/components/ViewIssueComponent.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/ViewIssueComponent.js b/src/components/ViewIssueComponent.js
+--- a/src/components/ViewIssueComponent.js	(revision fca4b6e0b912fa80a4a440d370d959c22418eb90)
++++ b/src/components/ViewIssueComponent.js	(revision 9d558ececcaff6336f00c000e52fc3775fda5772)
+@@ -9,93 +9,80 @@
+         super(props);
+ 
+ 
+-
+         this.props.ViewIssue(this.props.match.params.id);
+ 
+ 
+     }
++
+     cancel = () => {
+         this.props.history.push('/employees')
+     }
+-    // componentDidMount() {
+-    //
+-    //     // EmployeeService.getEmployeeById(this.state.id).then((res) => {
+-    //     //
+-    //     //     this.setState({employee: res.data})
+-    //     // });
+-    //
+-    //
+-    // }
++
++    colorStatus(status) {
++        switch (status) {
++            case "Created":
++                return <b className={"text-success"}>{status}</b>
++            case "In the process":
++                return <b className={"text-warning"}>{status}</b>
++            case "Closed":
++                return <b className={"text-danger"}>{status}</b>
++
++            default:
++                return <b>{status}</b>
++        }
++    }
+ 
+     render() {
+ 
+         return (
+-           <>
+-            <Card className={"col-md-6 offset-md-3"}>
+-                <h3>View Employee Details</h3>
+-                <div className={"card-body"} >
+-                    <Row>
+-                        Name is &nbsp;
+-                        {this.props.employee.name}
+-                    </Row>
+-                    <Row>
+-                        Status is &nbsp;
+-                        {this.props.employee.status}
+-                    </Row>
+-                    <Row>
+-                        Descriptions is &nbsp;
+-                        {this.props.employee.descriptions}
+-                    </Row>
++            <>
++                <h3 className={"text-center"}>View Employee Details</h3>
++                <Card className={" p-2"}>
++
++                    <div className={"card-body"}>
++                        <Row>
++                            {this.colorStatus(this.props.employee.status)}
++                        </Row>
++                        <Row>
++                            <b className={"p-2"}>
++                          Problem:  {this.props.employee.name}
++                            </b>
++                        </Row>
+ 
+-                    <Row>
+-                        Author is &nbsp;
+-                        {this.props.employee.author}
+-                    </Row>
++                        <Row className={"p-2 "} >
++                                <div>Description: </div>
++                          <div className={"border mt-1 p-2 "}>  {this.props.employee.descriptions}</div>
++                        </Row>
+ 
+-                    <Row>
+-                        Date is &nbsp;
+-                        {this.props.employee.date}
+-                    </Row>
++                        <div className={"p-2"}>Author is {this.props.employee.author}  {this.props.employee.date}   </div>
++
+ 
+-                    <table className={"table table-striped table-bordered"}>
+-                        <thead>
+-                        <tr>
+-                            <th>Name</th>
+-                            <th>Status</th>
+-                            <th>Descriptions</th>
+-                            <th>Date</th>
+ 
+-                        </tr>
+-                        </thead>
+ 
+-                        <tbody>
++                    </div>
++                </Card>
++
++
+ 
+-                        {
++                {
+ 
+-                            this.props.comments.map(
+-                                comment =>
++                    this.props.comments.map(
++                        comment =>
+ 
+-                                    <tr key={comment.id}>
+-                                        <td>{comment.status}</td>
+-                                        <td>{comment.author}</td>
+-                                        <td>{comment.text}</td>
+-                                        <td>{comment.date}</td>
++                            <Card className={"my-2 p-2"} key={comment.id}>
++                                <div>Author: {comment.author} {comment.date}</div>
++                                <div>{comment.status}</div>
++                                <div>{comment.text}</div>
+ 
+-                                    </tr>
+-                            )
+-                        }
+ 
+-                        </tbody>
+-
+-                    </table>
+-                </div>
+-                <button className={"btn btn-danger"} onClick={this.cancel.bind(this)}
+-                        style={{marginLeft: "10px"}}>Go to back</button>
+-            </Card>
++                            </Card>
++                    )
++                }
++
+ 
+-            <CreateComment id={this.props.match.params.id}/>
++                <CreateComment id={this.props.match.params.id}/>
+ 
+-           </>
++            </>
+         );
+     }
+ }
+@@ -106,7 +93,7 @@
+ }
+ const mapStateToProps = sate => ({
+     employee: sate.posts.employee,
+-     comments: sate.posts.comments
++    comments: sate.posts.comments
+ 
+ })
+ 
+Index: src/redux/actions.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/redux/actions.js b/src/redux/actions.js
+--- a/src/redux/actions.js	(revision fca4b6e0b912fa80a4a440d370d959c22418eb90)
++++ b/src/redux/actions.js	(revision 9d558ececcaff6336f00c000e52fc3775fda5772)
+@@ -8,7 +8,7 @@
+ export const createIssue = (issue) => async (dispatch) => {
+     try {
+         await axios.post(EMPLOYEE_API_BASE_URL, issue);
+-
++        issue.id = 0;
+         await dispatch({
+             type: POST,
+             payload: issue,
+@@ -52,16 +52,13 @@
+ 
+ export const ViewIssue = (id) => async (dispatch) => {
+ 
+-    // try {
+     const res = await axios.get(EMPLOYEE_API_BASE_URL + "/" + id);
+ 
+     await dispatch({
+         type: VIEW,
+         payload: res.data
+     });
+-    // } catch (err) {
+-    //     console.log(err);
+-    // }
++
+ 
+ 
+ }
+Index: src/validations/renderField.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/validations/renderField.js b/src/validations/renderField.js
+--- a/src/validations/renderField.js	(revision fca4b6e0b912fa80a4a440d370d959c22418eb90)
++++ b/src/validations/renderField.js	(revision 9d558ececcaff6336f00c000e52fc3775fda5772)
+@@ -9,3 +9,14 @@
+         </div>
+     </div>
+ )
++
++
++export const renderFieldTextarea = ({ input, label, type, meta: { touched, error, warning } }) => (
++    <div className={"form-group m-2"}>
++        <label>{label}</label>
++        <div>
++            <textarea  {...input} placeholder={label} type={type} className={"form-control"}/>
++            {touched && ((error && <span className={"text-danger"}>{label} {error}</span>) || (warning && <span className={"text-warning"}>{warning}</span>))}
++        </div>
++    </div>
++)
