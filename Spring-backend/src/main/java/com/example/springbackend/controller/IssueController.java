@@ -45,8 +45,9 @@ public class IssueController {
 
 
   @PostMapping("/employees")
-  public Issue createEmployee(@RequestBody Issue issue) {
-
+  public Issue createEmployee(@RequestBody Issue issue,@RequestBody String img) {
+    System.out.println(issue);
+    System.out.println(img);
     issue.setDate(LocalDateTime.now());
     return issueRepo.save(issue);
   }

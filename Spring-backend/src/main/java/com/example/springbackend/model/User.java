@@ -17,6 +17,7 @@ public class User {
   private String gender;
   private String locale;
   private LocalDateTime lastVisit;
+  private String role;
 
     public User() {
     }
@@ -76,5 +77,13 @@ public class User {
 
     public void setLastVisit(LocalDateTime lastVisit) {
         this.lastVisit = lastVisit;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Card} from "react-bootstrap";
 import {createIssue, fetchPosts} from "../redux/actions";
-import {connect, useSelector} from "react-redux";
+import {connect} from "react-redux";
 import {Field, reduxForm} from "redux-form";
 import {maxLengthCreator, required} from "../validations/validatiors";
 import {renderField, renderFieldTextarea} from "../validations/renderField";
@@ -9,30 +9,24 @@ import {Link} from "react-router-dom";
 
 class CreateIssueComponent extends Component {
 
-
-    // cancel = () => {
-    //     this.props.history.push('/employees')
-    // }
-
-
     render() {
 
         const onSubmit = (formData) => {
             formData.author = this.props.user.name
             formData.status = "Created"
+            console.log(this.state.image)
 
             this.props.createIssue(formData);
             this.props.history.push('/employees')
             this.props.fetchPosts();
         }
 
+
         return (
             <Card className={"col-md-6 offset-md-3"}>
                 <h3 className={"text-center"}>Add Employee</h3>
                 <div className={"card-body"}>
                     <IssueReduxForm onSubmit={onSubmit}/>
-
-
                     {/*<button className={"btn btn-danger mt-1"} onClick={this.cancel.bind(this)}>Cancel</button>*/}
                 </div>
 
@@ -50,7 +44,6 @@ const mapStateToProps = sate => ({
 
     user: sate.users.user
 
-
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateIssueComponent);
@@ -60,27 +53,16 @@ const maxLength = maxLengthCreator(30)
 const maxDescriptions = maxLengthCreator(250)
 
 const Form = (props) => {
-    const user = useSelector(state => {
-        return state.users.user
-    })
+
     return (<form onSubmit={props.handleSubmit}>
 
 
-        <div className={"form-group mb-2"}>
-            <label>Author: {user.name}</label>
-        </div>
+
 
         <div className={"form-group"}>
 
             <Field component={renderField} type={"text"} label={"Name"} name={"name"}
                    validate={[required, maxLength]}/>
-        </div>
-
-        <div className={"form-group"}>
-
-            {/*<Field component={renderField} type={"text"} label={"Status"} name={"status"}*/}
-            {/*       validate={[required,maxLength]}*/}
-            {/*/>*/}
         </div>
 
         <div className={"form-group mb-2"}>

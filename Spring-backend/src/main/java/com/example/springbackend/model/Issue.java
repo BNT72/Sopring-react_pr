@@ -1,6 +1,8 @@
 package com.example.springbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import javassist.bytecode.ByteArray;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -21,6 +23,8 @@ public class Issue {
 
     private String descriptions;
     private String author;
+
+    private byte[] itemImage;
 
     @OneToMany(mappedBy = "issue", cascade = CascadeType.REMOVE)
 
@@ -90,6 +94,14 @@ public class Issue {
     public void addComment(Comment comment)
     {
         this.comments.add(comment);
+    }
+
+    public byte[] getItemImage() {
+        return itemImage;
+    }
+
+    public void setItemImage(byte[] itemImage) {
+        this.itemImage = itemImage;
     }
 
     @Override

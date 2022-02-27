@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import {Container, Row} from "react-bootstrap";
 import {connect} from "react-redux";
 import {deleteIssue, fetchPosts, GetUser} from "../redux/actions";
+import RoleComponent from "./RoleComponent";
 
 class ListIssueComponent extends Component {
     constructor(props) {
@@ -12,7 +13,7 @@ class ListIssueComponent extends Component {
 
         this.viewEmployee = this.viewEmployee.bind(this)
 
-        // this.props.GetUser();
+        this.props.GetUser();
         this.props.fetchPosts();
 
     }
@@ -54,39 +55,39 @@ class ListIssueComponent extends Component {
         return (
             <>
 
-
-                <h2 className={"text-center"}>Employee List</h2>
-                <Container>
-                    <Row className={" p-3}"}>
-                        <button className={"btn btn-primary"} onClick={this.addEmployee}>Add employee</button>
-                    </Row>
-
-
-                    {
-                        this.props.employees.map(
-                            employee =>
-                                <Row className={"border  my-1 p-1 rounded"} key={employee.id}>
-                                    {colorStatus(employee.status)}
-                                    <span className={"hover"}
-                                          onClick={() => this.viewEmployee(employee.id)}>{employee.name}</span>
+                {this.props.user.role?(<>  <h2 className={"text-center"}>Employee List</h2>
+                    <Container>
+                        <Row className={" p-3}"}>
+                            <button className={"btn btn-primary"} onClick={this.addEmployee}>Add employee</button>
+                        </Row>
 
 
-                                    <div>by: {employee.author}</div>
-                                    <div>#{employee.id} Opened {employee.date}
+                        {
+                            this.props.employees.map(
+                                employee =>
+                                    <Row className={"border  my-1 p-1 rounded"} key={employee.id}>
+                                        {colorStatus(employee.status)}
+                                        <span className={"hover"}
+                                              onClick={() => this.viewEmployee(employee.id)}>{employee.name}</span>
 
 
-                                        <img className={"m-2 "} height={18}
-                                             src={"https://image.flaticon.com/icons/png/512/3096/3096673.png"} alt={"none"}
-                                             onClick={() => this.props.deleteIssue(employee.id)}/>
-
-                                    </div>
+                                        <div>by: {employee.author}</div>
+                                        <div>#{employee.id} Opened {employee.date}
 
 
-                                </Row>
-                        )
-                    }
+                                            <img className={"m-2 "} height={18}
+                                                 src={"https://image.flaticon.com/icons/png/512/3096/3096673.png"} alt={"none"}
+                                                 onClick={() => this.props.deleteIssue(employee.id)}/>
 
-                </Container>
+                                        </div>
+
+
+                                    </Row>
+                            )
+                        }
+
+                    </Container></>):(<RoleComponent></RoleComponent>)}
+
             </>
         );
     }

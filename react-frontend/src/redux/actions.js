@@ -1,4 +1,4 @@
-import {DELETE, GET_ALL, GET_USER, POST, POSTCOMMENT, VIEW} from "./types";
+import {DELETE, GET_ALL, GET_USER, POST, POSTCOMMENT, SET_ROLE, VIEW} from "./types";
 import axios from "axios";
 import {reset} from "redux-form";
 
@@ -7,6 +7,7 @@ const EMPLOYEE_API_BASE_URL = "/api/employees"
 
 export const createIssue = (issue) => async (dispatch) => {
     try {
+        console.log(issue)
         await axios.post(EMPLOYEE_API_BASE_URL, issue);
         issue.id = 0;
         await dispatch({
@@ -83,6 +84,17 @@ export const GetUser = () => async (dispatch) => {
     await dispatch({
         type: GET_USER,
         payload: user.data
+    });
+}
+
+export const SetRole = (user) => async (dispatch) => {
+
+    const usr = await axios.post("/usr",user);
+
+
+    await dispatch({
+        type: SET_ROLE,
+        payload: usr.data
     });
 }
 

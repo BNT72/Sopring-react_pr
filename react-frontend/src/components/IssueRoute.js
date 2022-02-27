@@ -6,6 +6,7 @@ import {Route,BrowserRouter as Router, Switch} from "react-router-dom";
 import ListIssueComponent from "./ListIssueComponent";
 import CreateIssueComponent from "./CreateIssueComponent";
 import ViewIssueComponent from "./ViewIssueComponent";
+import RoleComponent from "./RoleComponent";
 
 class IssueRoute extends Component {
 
@@ -28,7 +29,6 @@ class IssueRoute extends Component {
             //  где проходит авторизация и в дальнейшем редиректит обратно на порт 3000
             return (<a href={"http://localhost:8081/back"}> Hello user! You need to log in</a>)
         } else {
-
             return (
                 <>
                     <Router>
@@ -40,6 +40,7 @@ class IssueRoute extends Component {
                                 <Route path="/employees" component={ListIssueComponent}/>
                                 <Route path="/add-employee/:id" component={CreateIssueComponent}/>
                                 <Route path="/view-employee/:id" component={ViewIssueComponent}/>
+                                <Route path="/role" component={RoleComponent}/>
                             </Switch>
                         </Container>
 
