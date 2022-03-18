@@ -1,8 +1,6 @@
 package com.example.springbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import javassist.bytecode.ByteArray;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -24,12 +22,19 @@ public class Issue {
     private String descriptions;
     private String author;
 
-    private byte[] itemImage;
 
     @OneToMany(mappedBy = "issue", cascade = CascadeType.REMOVE)
-
     private List<Comment> comments;
 
+
+    @ManyToOne
+    private Issue issueInherited;
+
+    @ManyToOne
+    private User user;
+
+    @ManyToOne
+    private Project project;
 
 
     public Issue() {
@@ -91,17 +96,35 @@ public class Issue {
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
-    public void addComment(Comment comment)
-    {
+
+    public void addComment(Comment comment) {
         this.comments.add(comment);
     }
 
-    public byte[] getItemImage() {
-        return itemImage;
+
+    public User getUser() {
+        return user;
     }
 
-    public void setItemImage(byte[] itemImage) {
-        this.itemImage = itemImage;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+
+    public Issue getIssueInherited() {
+        return issueInherited;
+    }
+
+    public void setIssueInherited(Issue issueInherited) {
+        this.issueInherited = issueInherited;
     }
 
     @Override

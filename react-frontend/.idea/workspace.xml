@@ -5,13 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="38070199-6ff3-4e58-828a-6855765af1e0" name="Changes" comment="Changes">
-      <change afterPath="$PROJECT_DIR$/../Spring-backend/src/main/java/com/example/springbackend/model/Role.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Spring-backend/src/main/java/com/example/springbackend/controller/ProjectController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Spring-backend/src/main/java/com/example/springbackend/model/Project.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Spring-backend/src/main/java/com/example/springbackend/repo/ProjectRepo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Spring-backend/src/main/java/com/example/springbackend/request/IssueRequest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Spring-backend/src/main/java/com/example/springbackend/controller/AuthorizationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Spring-backend/src/main/java/com/example/springbackend/controller/AuthorizationController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Spring-backend/src/main/java/com/example/springbackend/controller/IssueController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Spring-backend/src/main/java/com/example/springbackend/controller/IssueController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Spring-backend/src/main/java/com/example/springbackend/model/Issue.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Spring-backend/src/main/java/com/example/springbackend/model/Issue.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Spring-backend/src/main/java/com/example/springbackend/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Spring-backend/src/main/java/com/example/springbackend/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Spring-backend/src/main/java/com/example/springbackend/repo/UserDetailsRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Spring-backend/src/main/java/com/example/springbackend/repo/UserDetailsRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Spring-backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../Spring-backend/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.cache/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.cache/.eslintcache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/CreateComment.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CreateComment.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/CreateIssueComponent.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CreateIssueComponent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/IssueRoute.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/IssueRoute.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ListIssueComponent.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ListIssueComponent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ViewIssueComponent.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ViewIssueComponent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/actions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/actions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/postsReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/postsReducer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/rootReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/rootReducer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/types.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/types.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/userReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/userReducer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/validations/FileInput.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,15 +61,15 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../aaaa/react_redux_front" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../spring-react/react-frontend" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="yarn" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
-    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2021.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2021.1.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager">
@@ -91,6 +106,9 @@
       <workItem from="1645195357243" duration="12120000" />
       <workItem from="1645340120565" duration="3284000" />
       <workItem from="1645545758003" duration="22000" />
+      <workItem from="1646916844349" duration="10442000" />
+      <workItem from="1646996757136" duration="12856000" />
+      <workItem from="1647502150022" duration="719000" />
     </task>
     <servers />
   </component>
@@ -108,5 +126,10 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$" />
+    </ignored-roots>
   </component>
 </project>

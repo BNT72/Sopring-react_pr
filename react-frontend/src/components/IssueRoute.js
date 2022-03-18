@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {GetUser} from "../redux/actions";
+import {GetUser, GetUsers} from "../redux/actions";
 import {Container} from "react-bootstrap";
 import {Route,BrowserRouter as Router, Switch} from "react-router-dom";
 import ListIssueComponent from "./ListIssueComponent";
 import CreateIssueComponent from "./CreateIssueComponent";
 import ViewIssueComponent from "./ViewIssueComponent";
 import RoleComponent from "./RoleComponent";
+import CreateProjectComponent from "./CreateProjectComponent";
 
 class IssueRoute extends Component {
 
@@ -15,6 +16,7 @@ class IssueRoute extends Component {
 
 
         this.props.GetUser();
+        this.props.GetUsers();
 
 
 
@@ -37,9 +39,10 @@ class IssueRoute extends Component {
                         <Container className={"mt-3"}>
                             <Switch>
                                 <Route path="/" exact component={ListIssueComponent}/>
-                                <Route path="/employees" component={ListIssueComponent}/>
-                                <Route path="/add-employee/:id" component={CreateIssueComponent}/>
-                                <Route path="/view-employee/:id" component={ViewIssueComponent}/>
+                                <Route path="/issues" component={ListIssueComponent}/>
+                                <Route path="/add-issue/:id" component={CreateIssueComponent}/>
+                                <Route path="/add-project/:id" component={CreateProjectComponent}/>
+                                <Route path="/view-issue/:id" component={ViewIssueComponent}/>
                                 <Route path="/role" component={RoleComponent}/>
                             </Switch>
                         </Container>
@@ -54,7 +57,7 @@ class IssueRoute extends Component {
 
 
 const mapDispatchToProps = {
-    GetUser
+    GetUser,GetUsers
 }
 
 const mapStateToProps = sate => ({

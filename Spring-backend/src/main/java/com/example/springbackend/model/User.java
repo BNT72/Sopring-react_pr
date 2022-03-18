@@ -1,23 +1,27 @@
 package com.example.springbackend.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "usr")
 public class User {
 
-  @Id
-  private String id;
-  private String name;
-  private String userpic;
-  private String email;
-  private String gender;
-  private String locale;
-  private LocalDateTime lastVisit;
-  private String role;
+    @Id
+    private String id;
+    private String name;
+    private String userpic;
+    private String email;
+    private String gender;
+    private String locale;
+    private LocalDateTime lastVisit;
+    private String role;
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Issue> issues;
 
     public User() {
     }
@@ -86,4 +90,14 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
+
+    public List<Issue> getIssues() {
+        return issues;
+    }
+
+    public void setIssues(List<Issue> issues) {
+        this.issues = issues;
+    }
+
+
 }

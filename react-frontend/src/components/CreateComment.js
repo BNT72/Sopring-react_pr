@@ -13,8 +13,8 @@ class CreateComment extends Component {
         const onSubmit = (formData) => {
             formData.author = this.props.user.name
 
-            if (!formData.status) formData.status = this.props.employee.status
-            else   this.props.employee.status = formData.status;
+            if (!formData.status) formData.status = this.props.issue.status
+            else   this.props.issue.status = formData.status;
 
             this.props.SaveComment(this.props.id, formData);
 
@@ -39,7 +39,7 @@ const mapDispatchToProps = {
 }
 
 const mapStateToProps = sate => ({
-    employee: sate.posts.employee,
+    issue: sate.posts.issue,
     user: sate.users.user
 
 
@@ -68,7 +68,7 @@ const Form = (props) => {
                 <div className={"form-group"}>
                     <label className={"p-2  "}>Status</label>
                     <Field name="status" component="select">
-                        <option value=""></option>
+                        <option value="">Select status</option>
                         <option value="In the process">In the process</option>
                         <option value="Closed">Closed</option>
                     </Field>

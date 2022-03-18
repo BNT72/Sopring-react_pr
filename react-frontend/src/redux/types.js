@@ -1,9 +1,11 @@
 export const POST='POST'
+export const POST_PROJECT='POST_PROJECT'
 export const GET_ALL='GET_ALL'
+export const GET_ALL_PROJECT='GET_ALL_PROJECT'
 export const DELETE='DELETE'
-// export const UPDATE='UPDATE'
 export const VIEW='VIEW'
 export const POSTCOMMENT='POSTCOMMENT'
 export const GET_USER='GET_USER'
+export const GET_USERS='GET_USERS'
 export const SET_ROLE='SET_ROLE'
 

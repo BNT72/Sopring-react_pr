@@ -1,9 +1,10 @@
-import {GET_USER, SET_ROLE} from "./types";
+import {GET_USER, GET_USERS, SET_ROLE} from "./types";
 
 
 const initialState = {
 
     user: [],
+    users: [],
 
 }
 export const userReducer = (state = initialState, action) => {
@@ -13,6 +14,8 @@ export const userReducer = (state = initialState, action) => {
 
         case GET_USER:
             return {...state, user: action.payload}
+        case GET_USERS:
+            return {...state, users: action.payload}
         case SET_ROLE:
             return {...state, user: action.payload}
 
